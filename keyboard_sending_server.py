@@ -48,7 +48,7 @@ def track_mouse(client):
             client.send(f"MOUSE_CLICK|right|{action}\n".encode())
             prev_right = right
 
-        time.sleep(0.01)
+        time.sleep(0.001)
 
 if __name__ == '__main__':
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

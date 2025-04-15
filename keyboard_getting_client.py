@@ -20,7 +20,7 @@ def move_mouse(x, y):
 
 if __name__ == '__main__':
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.connect(('SERVER_IP_HERE', 9999))  # Replace with server IP
+    client.connect(('0.0.0.0', 9999))
     client.send("Hello from client!".encode())
 
     buffer = ""
