@@ -20,4 +20,5 @@ if __name__ == "__main__":
     print(client.recv(1024).decode())
 
     while True:
-        keyboard.press(str(client.recv(1024).decode()))
+        key = str(client.recv(1024).decode())
+        keyboard.press(key)

