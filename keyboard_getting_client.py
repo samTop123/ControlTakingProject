@@ -1,24 +1,22 @@
-import keyboard
 import socket
-import os
+import keyboard
 
 if __name__ == "__main__":
-    count = 0
-
-    # Create a TCP socket
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    # Get the IP address of the current machine (localhost for local test)
     hostname = socket.gethostname()
     IPAddr = socket.gethostbyname(hostname)
 
-    # Connect to the server
     client.connect((IPAddr, 9999))
 
-    # Send greeting and receive response
     client.send('hello From Client !'.encode())
-    print(client.recv(1024).decode())
+    # Not receiving any response in this version
 
     while True:
-        key = str(client.recv(1024).decode())
-        keyboard.press(key)
+        data = client.recv(1024).decode().strip()
+        if data:
+            try:
+                keyboard.press_and_release(data)
+                print(f"Pressed: {data}")
+            except:
+                print(f"Invalid key: {data}")
