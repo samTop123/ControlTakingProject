@@ -4,6 +4,7 @@ import win32api
 import win32con
 import time
 import threading
+import constants
 
 def send_key_event(client, event):
     if event.event_type == 'down':
@@ -52,7 +53,7 @@ def track_mouse(client):
 
 def main():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server.bind(('0.0.0.0', 9999))
+    server.bind((constants.SERVER_IP, constants.TCP_PORT))
     server.listen(1)
     print("[*] Waiting for client...")
     client, addr = server.accept()

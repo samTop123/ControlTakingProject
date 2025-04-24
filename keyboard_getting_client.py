@@ -2,6 +2,7 @@ import socket
 import keyboard
 import win32api
 import win32con
+import constants
 
 def mouse_click(button, action):
     if button == 'left':
@@ -20,7 +21,7 @@ def move_mouse(x, y):
 
 def main():
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.connect(('0.0.0.0', 9999))
+    client.connect((constants.SERVER_IP, constants.TCP_PORT))
     client.send("Hello from client!".encode())
 
     buffer = ""
