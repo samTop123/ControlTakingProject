@@ -18,7 +18,7 @@ def mouse_click(button, action):
 def move_mouse(x, y):
     win32api.SetCursorPos((x, y))
 
-if __name__ == '__main__':
+def main():
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client.connect(('0.0.0.0', 9999))
     client.send("Hello from client!".encode())
@@ -48,3 +48,6 @@ if __name__ == '__main__':
         except Exception as e:
             print("[Error]", e)
             break
+
+if __name__ == '__main__':
+    main()

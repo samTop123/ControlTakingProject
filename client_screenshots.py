@@ -1,53 +1,43 @@
-import keyboard
-from PIL import ImageGrab
 import socket
+import constants
+import time
+from PIL import ImageGrab
 import os
 
-if __name__ == "__main__":
+UDP_IP = constants.SERVER_IP
+UDP_PORT = constants.UDP_PORT
+server_address = (UDP_IP, UDP_PORT)
+
+print("UDP target IP: " + UDP_IP)
+print("UDP target port: " + str(UDP_PORT))
+
+client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+def main():
     count = 0
 
-    # Create a TCP socket
-    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-    # Get the IP address of the current machine (localhost for local test)
-    hostname = socket.gethostname()
-    IPAddr = socket.gethostbyname(hostname)
-
-    # Connect to the server
-    client.connect((IPAddr, 9999))
-
-    # Send greeting and receive response
-    client.send('hello From Client !'.encode())
-    print(client.recv(1024).decode())
-
-    while not keyboard.is_pressed('q'):
-        # Capture a screenshot
+    while True:
         screenshot = ImageGrab.grab()
-        file_path = f"screenshots_client\\my_image{count}.png"
-        screenshot.save(file_path, 'PNG')
+        screenshot.resize((800, 533))
+        file_path = f"screenshots_client\\my_image{count}.jpg"
+        screenshot.save(file_path, 'JPEG', quality=70)
+
+        img_data = b""
+        with open(f"screenshots_client\\my_image{count}.jpg", "rb") as f: 
+            img_data = f.read()
+
+        client.sendto(str(len(img_data)).encode(), server_address)
+        chunk_size = 1024
+        for i in range(0, len(img_data), chunk_size):
+            chunk = img_data[i:i+chunk_size]
+            client.sendto(chunk, server_address)
+
         count += 1
-
+        time.sleep(0.15)
         try:
-            # Get file name and size
-            file_name = os.path.basename(file_path)
-            file_size = os.path.getsize(file_path)
+            os.remove(f"screenshots_client\\my_image{count-1}.jpg")
+        except Exception as e:
+            print(e)
 
-            # Send fixed-length file name (100 characters, padded with spaces)
-            client.send(file_name.ljust(100).encode())
-
-            # Send fixed-length file size (10 digits, padded with zeros)
-            client.send(str(file_size).zfill(10).encode())
-
-            # Send file content in chunks
-            with open(file_path, "rb") as f:
-                while True:
-                    data = f.read(4096)
-                    if not data:
-                        break
-                    client.sendall(data)
-
-            print("Frame sent!")
-
-        except ConnectionResetError:
-            print("Connection closed by server.")
-            break
+if __name__ == "__main__":
+    main()

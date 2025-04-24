@@ -50,7 +50,7 @@ def track_mouse(client):
 
         time.sleep(0.001)
 
-if __name__ == '__main__':
+def main():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind(('0.0.0.0', 9999))
     server.listen(1)
@@ -62,3 +62,6 @@ if __name__ == '__main__':
     threading.Thread(target=track_mouse, args=(client,), daemon=True).start()
     keyboard.hook(lambda e: send_key_event(client, e))
     keyboard.wait()
+
+if __name__ == '__main__':
+    main()
