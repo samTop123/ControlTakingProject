@@ -13,18 +13,26 @@ print("UDP target port: " + str(UDP_PORT))
 
 client = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
+def saving_file(count):
+    screenshot = ImageGrab.grab()
+    screenshot.resize((800, 533))
+    file_path = f"screenshots_client\\my_image{count}.jpg"
+    screenshot.save(file_path, 'JPEG', quality=70)
+
+def read_img_data(count):
+    img_data = b""
+    with open(f"screenshots_client\\my_image{count}.jpg", "rb") as f: 
+        img_data = f.read()
+    
+    return img_data
+
 def main():
     count = 0
 
     while True:
-        screenshot = ImageGrab.grab()
-        screenshot.resize((800, 533))
-        file_path = f"screenshots_client\\my_image{count}.jpg"
-        screenshot.save(file_path, 'JPEG', quality=70)
+        saving_file(count)
 
-        img_data = b""
-        with open(f"screenshots_client\\my_image{count}.jpg", "rb") as f: 
-            img_data = f.read()
+        img_data = read_img_data(count)
 
         client.sendto(str(len(img_data)).encode(), server_address)
         chunk_size = 1024
