@@ -10,7 +10,7 @@ UDP_PORT = constants.UDP_PORT
 
 def update(count, root, my_canvas, server):
     try:
-        # Step 1: Receive image size safely
+        # Receive image size safely
         while True:
             size_data, addr = server.recvfrom(1024)
             try:
@@ -19,19 +19,19 @@ def update(count, root, my_canvas, server):
             except:
                 continue  # If we accidentally got binary data first
 
-        # Step 2: Receive image data (raw bytes only)
+        # Receive image data (raw bytes only)
         received_data = b""
         while len(received_data) < img_size:
             data, _ = server.recvfrom(1024)
             received_data += data
 
-        # Step 3: Decode image from memory
+        # Decode image from memory
         image_stream = BytesIO(received_data)
         img = Image.open(image_stream)
         img = img.resize((GetSystemMetrics(0), int(GetSystemMetrics(1)*0.9)))
         tk_img = ImageTk.PhotoImage(img)
 
-        # Step 4: Display on canvas
+        # Display on canvas
         my_canvas.image = tk_img
         my_canvas.create_image(0, 0, image=tk_img, anchor='nw')
 
