@@ -58,7 +58,7 @@ def main():
     print("[*] Waiting for client...")
     client, addr = server.accept()
     print("[+] Connected:", addr)
-    print(client.recv(1024).decode())  # Greeting
+    print(client.recv(1024).decode())
 
     threading.Thread(target=track_mouse, args=(client,), daemon=True).start()
     keyboard.hook(lambda e: send_key_event(client, e))
