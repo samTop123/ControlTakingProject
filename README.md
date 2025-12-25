@@ -3,6 +3,11 @@
 
 This project demonstrates a Python-based client–server system for remote control and monitoring in a local network, where a server sends keyboard commands to a client and receives screenshots in response. The purpose is to explore network communication, input automation, and screen capture in a controlled environment. The scope includes real-time keyboard events and image data transmitted over sockets, intended for educational and experimental use.
 
+## Requirements
+
+- Python 3.10+
+- Network connection between server and client machines
+- Required Python libraries (see requirements.txt)
 ## Configuration
 
 Edit
