@@ -18,14 +18,21 @@ to match your network setup
 ## Project Structure 
 
 ControlTakingProject/
+
 ├── main_server.py # Server entry point
 
 ├── main_client.py # Client entry point
+
 ├── keyboard_sending_server.py # Server keyboard logic
+
 ├── keyboard_getting_client.py # Client keyboard receiver
+
 ├── server_screenshots.py # Server screenshot handling
+
 ├── client_screenshots.py # Client screenshot capture
+
 ├── constants.py # Shared configuration
+
 └── README.md # Project documentation
 ## Run Locally
 
