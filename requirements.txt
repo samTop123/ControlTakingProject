@@ -1,3 +1,5 @@
 pynput
 Pillow
 pyautogui
+keyboard
+pywin32
